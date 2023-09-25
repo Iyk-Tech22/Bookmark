@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from .forms import LoginForm
 
 # LOGIN VIEW
@@ -32,4 +33,13 @@ def user_login(request):
         "form":form
     }
     return render(request, "account/login.html", form)
-        
+    
+# DASHBOARD VIEW
+@login_required
+def dashboard(request):
+    """ Handle request to dashboard route """
+    context = {
+       "section":"dashboard",
+       "title":"Dashboard"
+    }
+    return render(request, "account/dashboard.html", context)

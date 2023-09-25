@@ -1,0 +1,13 @@
+{% load static %}
+<!DOCTYPE>
+<html lang="en">
+    <head>
+       {% block title %}{% endblock %}
+       {% static "account/css/style.css" %}
+    <\head>
+    <body>
+        <div id="contain">
+            {% block content %}{ endblock %}
+        </div>
+    </body>
+</html>
