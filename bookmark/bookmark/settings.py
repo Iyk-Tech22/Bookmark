@@ -126,3 +126,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "dashboard"
 LOGIN_URL = "login"
 LOGOUT_URL = "logout"
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'  # SMTP server host
+EMAIL_PORT = 587  # Port for the SMTP server
+EMAIL_USE_TLS = False  # Use TLS for secure connection
+EMAIL_HOST_USER = 'your_username'  # SMTP username
+EMAIL_HOST_PASSWORD = 'your_password'  # SMTP password
+DEFAULT_FROM_EMAIL = 'webmaster@example.com'  # Default sender email address
