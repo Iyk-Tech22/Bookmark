@@ -13,7 +13,7 @@
             {% if request.user.is_authenticated %}
                <ul class="menu">
                   <li {% if section == "dashboard" %} class="selected" {% endif %}>
-                     <a href="{% url 'account:dashboard' %}">
+                     <a href="{% url 'dashboard' %}">
                        Dashboard
                      </a>
                   </li>
@@ -28,9 +28,9 @@
             <span class="user">
                {% if request.user.is_authenticated %}
                   Hello, {{ request.user.first_name|default:request.user.username }} 
-                  <a id="logout" href="{% url 'account:logout' %}">Logout</a>
+                  <a id="logout" href="{% url 'logout' %}">Logout</a>
                {% else %}
-                  <a id="login" href="{% url 'account:login' %}">Login</a>
+                  <a id="login" href="{% url 'login' %}">Login</a>
                {% endif %}
             </span>
        </header>
