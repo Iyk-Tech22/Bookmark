@@ -4,6 +4,7 @@
 """
 from django import forms
 from django.contrib.auth.models import User
+from .models import Profile
 
 #LOGIN FORM
 class LoginForm(forms.Form):
@@ -27,3 +28,17 @@ class UserRegistrationForm(forms.ModelForm):
         if cd["password"] != cd["password_confirm"]:
             raise forms.ValidationError("password not match")
         return cd["password_confirm"]
+
+# USER EDIT FORM
+class UserEditForm(forms.ModelForm):
+    """ Generate user form """
+    class Meta:
+        model = User
+        fields = ["username", "first_name", "last_name"]
+
+# PROFILE EDIT FORM
+class ProfileEditForm(forms.ModelForm):
+    """ Create form from profile model """
+    class Meta:
+        model = Profile
+        fields = ["date_of_birth", "photo"]

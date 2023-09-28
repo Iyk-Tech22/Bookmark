@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, UserRegistrationForm
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from django.urls import reverse
+from .models import Profile
+
+
 # LOGIN VIEW
 def user_login(request):
     """ Handle login of users """
@@ -56,6 +59,8 @@ def user_registration(request):
             user = form.save(commit=False)
             user.set_password(password)
             user.save()
+            profile = Profile(user=user)
+            profile.save()
             return render(request, "registration/register_done.html", {"user": user})
     else:
         form = UserRegistrationForm()
@@ -63,3 +68,25 @@ def user_registration(request):
         "form" : form
     }
     return render(request, "registration/register.html", context)
+
+# EDIT USER PROFILE
+@login_required
+def edit(request):
+    """ Handles profile edit request """
+    if request.method == "POST":
+        auth_user = request.user
+        post_data = request.POST
+        profile_photo = request.FILES
+        user_form = UserEditForm(instance=auth_user, data=post_data)
+        profile_form = ProfileEditForm(instance=auth_user.profile, data=post_data, files=profile_photo)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+    else:
+        user_form = UserEditForm(instance=auth_user)
+        profile_form - ProfileEditForm(instance=auth_user.profile)
+    context = {
+        "user_form":user_form,
+        "profile_form":profile_form
+    }
+    return render(request, "account/user_profile.html", context)
