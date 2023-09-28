@@ -9,6 +9,7 @@ auth_views.LoginView.redirect_authenticated_user = True
 urlpatterns = [
     path("", include(auth_urls)),
     path("", views.dashboard, name="dashboard"),
+    path("register/", views.user_registration, name="register")
     # # LOGOUT AND LOGIN ROUTES
     # path("login", auth_views.LoginView.as_view(redirect_authenticated_user=True), name="login"),
     # path("logout/", auth_views.LogoutView.as_view(), name="logout"),

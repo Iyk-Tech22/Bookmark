@@ -134,3 +134,6 @@ EMAIL_USE_TLS = False  # Use TLS for secure connection
 EMAIL_HOST_USER = 'your_username'  # SMTP username
 EMAIL_HOST_PASSWORD = 'your_password'  # SMTP password
 DEFAULT_FROM_EMAIL = 'webmaster@example.com'  # Default sender email address
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
