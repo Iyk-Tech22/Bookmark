@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from django.urls import reverse
 from .models import Profile
+from django.contrib import messages
 
 
 # LOGIN VIEW
@@ -73,20 +74,24 @@ def user_registration(request):
 @login_required
 def edit(request):
     """ Handles profile edit request """
+    auth_user = request.user
+    post_data = request.POST
     if request.method == "POST":
-        auth_user = request.user
-        post_data = request.POST
         profile_photo = request.FILES
         user_form = UserEditForm(instance=auth_user, data=post_data)
         profile_form = ProfileEditForm(instance=auth_user.profile, data=post_data, files=profile_photo)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            messages.success(request, "Profile Update, Successfully!")
+        else:
+            messages.error(request, "Error updating your profile")
+            
     else:
         user_form = UserEditForm(instance=auth_user)
-        profile_form - ProfileEditForm(instance=auth_user.profile)
+        profile_form = ProfileEditForm(instance=auth_user.profile)
     context = {
         "user_form":user_form,
         "profile_form":profile_form
     }
-    return render(request, "account/user_profile.html", context)
+    return render(request, "account/edit.html", context)

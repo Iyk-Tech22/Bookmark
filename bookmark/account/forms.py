@@ -29,12 +29,28 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError("password not match")
         return cd["password_confirm"]
 
+    def clean_email(self):
+        """ Verify email is not taken """
+        cd = self.cleaned_data["email"]
+        email = User.objects.filter(email=cd)
+        if email.exists():
+            raise forms.ValidationError("Email already exist")
+        return cd      
+
 # USER EDIT FORM
 class UserEditForm(forms.ModelForm):
     """ Generate user form """
     class Meta:
         model = User
-        fields = ["username", "first_name", "last_name"]
+        fields = ["username", "first_name", "last_name", "email"]
+
+    def clean_email(self):
+        """ Verify email is not taken """
+        cd = self.cleaned_data["email"]
+        email = User.objects.exclude(id=self.instance.id).filter(email=cd)
+        if email.exists():
+            raise forms.ValidationError("Email Already in use.")
+        return cd
 
 # PROFILE EDIT FORM
 class ProfileEditForm(forms.ModelForm):
@@ -42,3 +58,4 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["date_of_birth", "photo"]
+    

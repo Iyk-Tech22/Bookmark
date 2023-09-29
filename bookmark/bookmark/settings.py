@@ -137,3 +137,8 @@ DEFAULT_FROM_EMAIL = 'webmaster@example.com'  # Default sender email address
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+]
